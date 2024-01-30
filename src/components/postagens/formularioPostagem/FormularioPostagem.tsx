@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
+import { ChangeEvent, useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../../../contexts/AuthContext';
 import Postagem from '../../../models/Postagem';
@@ -146,7 +146,7 @@ function FormularioPostagem() {
             value={postagem.titulo}
             onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
             type="text"
-            placeholder="Titulo"
+            placeholder="Qual o Titulo da Postagem"
             name="titulo"
             required
             className="border-2 border-slate-700 rounded p-2"
@@ -158,7 +158,7 @@ function FormularioPostagem() {
             value={postagem.texto}
             onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
             type="text"
-            placeholder="Texto"
+            placeholder="Qual o Texto da Postagem"
             name="texto"
             required
             className="border-2 border-slate-700 rounded p-2"
