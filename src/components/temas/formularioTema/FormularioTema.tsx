@@ -4,8 +4,11 @@ import { AuthContext } from '../../../contexts/AuthContext';
 import Tema from '../../../models/Tema';
 import { atualizar, buscar, cadastrar } from '../../../services/Service';
 import { toastAlerta } from '../../../util/toastAlerta';
+import { RotatingLines } from 'react-loader-spinner';
 
 function FormularioTema() {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
   const [tema, setTema] = useState<Tema>({} as Tema);
 
   let navigate = useNavigate();
@@ -34,12 +37,11 @@ function FormularioTema() {
       ...tema,
       [e.target.name]: e.target.value
     })
-
-    console.log(JSON.stringify(tema))
   }
 
   async function gerarNovoTema(e: ChangeEvent<HTMLFormElement>) {
     e.preventDefault()
+    setIsLoading(true)
 
     if (id !== undefined) {
       try {
@@ -82,6 +84,7 @@ function FormularioTema() {
       }
     }
 
+    setIsLoading(false)
     retornar()
   }
 
@@ -115,10 +118,19 @@ function FormularioTema() {
           />
         </div>
         <button
-          className="rounded text-slate-100 bg-indigo-400 hover:bg-indigo-800 w-1/2 py-2 mx-auto block"
+          className="rounded text-slate-100 bg-indigo-400 hover:bg-indigo-800 w-1/2 py-2 mx-auto flex justify-center "
           type="submit"
         >
-          {id === undefined ? 'Cadastrar' : 'Editar'}
+          {isLoading ?
+            <RotatingLines
+              strokeColor="white"
+              strokeWidth="5"
+              animationDuration="0.75"
+              width="24"
+              visible={true}
+            /> :
+            <span>Confirmar</span>
+          }
         </button>
       </form>
     </div>

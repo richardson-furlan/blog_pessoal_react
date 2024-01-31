@@ -10,7 +10,7 @@ function Perfil() {
 
   useEffect(() => {
     if (usuario.token === "") {
-      toastAlerta('Dados inconsistentes. Verifique as informações de cadastro.', 'erro')
+      toastAlerta('Você precisa estar logado', 'info')
       navigate("/login")
     }
   }, [usuario.token])

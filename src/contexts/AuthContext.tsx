@@ -28,7 +28,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         token: ""
     })
 
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     async function handleLogin(userLogin: UsuarioLogin) {
         setIsLoading(true)
@@ -39,7 +39,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
         } catch (error) {
             console.log(error)
-            toastAlerta('Você precisa estar logado', 'info');
+            toastAlerta('Dados do usuário inconsistentes', 'erro');
             setIsLoading(false)
         }
     }

@@ -18,13 +18,13 @@ import Perfil from './pages/perfil/Perfil';
 import DeletarPostagem from './components/postagens/deletarPostagem/DeletarPostagem';
 
 function App() {
-  
+
   return (
     <>
       <AuthProvider>
-      <ToastContainer />
+        <ToastContainer />
         <BrowserRouter>
-        <Navbar />
+          <Navbar />
           <div className='min-h-[80vh]'>
             <Routes>
               <Route path="/" element={<Login />} />

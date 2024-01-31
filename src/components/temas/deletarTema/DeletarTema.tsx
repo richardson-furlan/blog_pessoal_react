@@ -1,10 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { AuthContext } from '../../../contexts/AuthContext'
 import Tema from '../../../models/Tema'
 import { buscar, deletar } from '../../../services/Service'
+import { toastAlerta } from '../../../util/toastAlerta'
+import { RotatingLines } from 'react-loader-spinner'
 
 function DeletarTema() {
+
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+
     const [tema, setTema] = useState<Tema>({} as Tema)
 
     let navigate = useNavigate()
@@ -23,7 +28,7 @@ function DeletarTema() {
             })
         } catch (error: any) {
             if (error.toString().includes('403')) {
-                alert('O token expirou, favor logar novamente')
+                toastAlerta('O token expirou, favor logar novamente', 'info')
                 handleLogout()
             }
         }
@@ -31,7 +36,7 @@ function DeletarTema() {
 
     useEffect(() => {
         if (token === '') {
-            alert('Você precisa estar logado')
+            toastAlerta('Você precisa estar logado', 'info')
             navigate('/login')
         }
     }, [token])
@@ -47,6 +52,8 @@ function DeletarTema() {
     }
 
     async function deletarTema() {
+        setIsLoading(true)
+
         try {
             await deletar(`/temas/${id}`, {
                 headers: {
@@ -54,10 +61,10 @@ function DeletarTema() {
                 }
             })
 
-            alert('Tema apagado com sucesso')
+            toastAlerta('Tema apagado com sucesso', 'sucesso')
 
         } catch (error) {
-            alert('Erro ao apagar o Tema')
+            toastAlerta('Erro ao apagar o Tema', 'erro')
         }
 
         retornar()
@@ -74,7 +81,16 @@ function DeletarTema() {
                 <div className="flex">
                     <button className='text-slate-100 bg-red-400 hover:bg-red-600 w-full py-2' onClick={retornar}>Não</button>
                     <button className='w-full text-slate-100 bg-indigo-400 hover:bg-indigo-600 flex items-center justify-center' onClick={deletarTema}>
-                        Sim
+                        {isLoading ?
+                            <RotatingLines
+                                strokeColor="white"
+                                strokeWidth="5"
+                                animationDuration="0.75"
+                                width="24"
+                                visible={true}
+                            /> :
+                            <span>Sim</span>
+                        }
                     </button>
                 </div>
             </div>
